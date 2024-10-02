@@ -30,12 +30,18 @@ void dzielenie(FILE *plik, float a, float b) {
     }
 }
 
-void jakie_dzialanie() {
+void czyszczenie_pliku() {
+    FILE *plik = fopen("prymitywny_kalkulator.txt", "w");
+    printf("Plik zostal pomyslnie wyczyszczony.");
+}
+
+void jaka_funkcja() {
     printf("___Wybierz swoje dzialanie, wybierajac cyfre.___\n");
     printf("1. Dodawanie.\n");
     printf("2. Odejmowanie.\n");
     printf("3. Mnozenie.\n");
-    printf("4. Dzielenie.");
+    printf("4. Dzielenie.\n");
+    printf("9. Wyczyszczenie zawartosci pliku .txt");
 }
 
 int main() {
@@ -57,7 +63,7 @@ int main() {
     scanf("%f", &b);
 
     int wybor;
-    jakie_dzialanie();
+    jaka_funkcja();
     printf("\nWybierz jedna z powyzszych opcji: ");
     scanf("%d", &wybor);
     switch(wybor) {
@@ -72,6 +78,9 @@ int main() {
         break;
         case 4:
             dzielenie(plik, a, b);
+        break;
+        case 9:
+            czyszczenie_pliku(plik);
         break;
         default:
             printf("Taka opcja nie istnieje.");
