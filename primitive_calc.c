@@ -19,9 +19,15 @@ void mnozenie(FILE *plik, float a, float b) {
 }
 
 void dzielenie(FILE *plik, float a, float b) {
-    float wynik = a / b;
-    printf("Iloraz: %f\n", wynik);
-    fprintf(plik, "Iloraz %f i %f wynosi: %f\n", a, b, wynik);
+    if(b != 0) {
+        float wynik = a / b;
+        printf("Iloraz: %f\n", wynik);
+        fprintf(plik, "Iloraz %f i %f wynosi: %f\n", a, b, wynik);
+    }
+    else {
+        printf("Nie mozna dzielic przez 0!");
+        fprintf(plik, "Co za debil, probowal podzielic %f przez %.0f haha!\n", a, b);
+    }
 }
 
 void jakie_dzialanie() {
@@ -37,7 +43,12 @@ int main() {
     float a;
     float b;
 
-    FILE *plik = fopen("prymitywny_kalkulator.txt", "w");
+    FILE *plik = fopen("prymitywny_kalkulator.txt", "a");
+
+    if(plik == NULL) {
+        printf("Problem z otwarciem pliku");
+        return 1;
+    }
 
     printf("Podaj pierwsza liczbe: ");
     scanf("%f", &a);
