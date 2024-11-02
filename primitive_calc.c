@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void dodawanie(FILE *plik) {
+void dodawanie(FILE * plik) {
 
     float a;
     float b;
@@ -16,7 +16,7 @@ void dodawanie(FILE *plik) {
     fprintf(plik, "Suma %f i %f wynosi: %f\n", a, b, wynik);
 }
 
-void odejmowanie(FILE *plik) {
+void odejmowanie(FILE * plik) {
 
     float a;
     float b;
@@ -32,7 +32,7 @@ void odejmowanie(FILE *plik) {
     fprintf(plik, "Roznica %f i %f wynosi: %f\n", a, b, wynik);
 }
 
-void mnozenie(FILE *plik) {
+void mnozenie(FILE * plik) {
 
     float a;
     float b;
@@ -48,7 +48,7 @@ void mnozenie(FILE *plik) {
     fprintf(plik, "Iloczyn %f i %f wynosi: %f\n", a, b, wynik);
 }
 
-void dzielenie(FILE *plik) {
+void dzielenie(FILE * plik) {
 
     float a;
     float b;
@@ -70,13 +70,13 @@ void dzielenie(FILE *plik) {
     }
 }
 
-void czyszczenie_pliku() {
-    FILE *plik = fopen("prymitywny_kalkulator.txt", "w");
-    printf("Plik zostal pomyslnie wyczyszczony.");
+void delete_file_contents(const char * calc_mem) {
+    FILE * usun = fopen(calc_mem, "w");
+    fclose(usun);
 }
 
 void jaka_funkcja() {
-    printf("___Wybierz swoje dzialanie, wybierajac cyfre.___\n");
+    printf("###Wybierz swoje dzialanie, wybierajac cyfre.###\n");
     printf("1. Dodawanie.\n");
     printf("2. Odejmowanie.\n");
     printf("3. Mnozenie.\n");
@@ -86,13 +86,15 @@ void jaka_funkcja() {
 }
 
 
-
 int main() {
 
-    FILE *plik = fopen("prymitywny_kalkulator.txt", "a");
+    const char * calc_mem = "pamiec_kalkulatora.txt";
 
-    if(plik == NULL) {
-        printf("Problem z otwarciem pliku");
+    FILE * save_to_file;
+    save_to_file = fopen(calc_mem, "a");
+
+    if(save_to_file == NULL) {
+        perror("Blad z otwarciem pliku.");
         return 1;
     }
 
@@ -104,29 +106,32 @@ int main() {
     scanf("%d", &wybor);
     switch(wybor) {
         case 1:
-            dodawanie(plik);
+            dodawanie(save_to_file);
         break;
         case 2:
-            odejmowanie(plik);
+            odejmowanie(save_to_file);
         break;
         case 3:
-            mnozenie(plik);
+            mnozenie(save_to_file);
         break;
         case 4:
-            dzielenie(plik);
+            dzielenie(save_to_file);
         break;
         case 9:
-            czyszczenie_pliku(plik);
+            fclose(save_to_file);
+            delete_file_contents(calc_mem);
+            save_to_file = fopen(calc_mem, "a");
         break;
         case 0:
             printf("Dziekuje za zkorzystanie z kalkulatora :3");
             break;
         default:
             printf("Taka opcja nie istnieje.");
-            fprintf(plik, "Uzytkownik wybral opcje ktora nie istnieje.\n");
+            fprintf(save_to_file, "Uzytkownik wybral opcje ktora nie istnieje.\n");
     }
     } while(wybor != 0);
 
-    fclose(plik);
+    fclose(save_to_file);
+
     return 0;
 }
