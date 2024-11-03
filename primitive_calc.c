@@ -1,52 +1,109 @@
 #include <stdio.h>
+#include <stdlib.h>
 
+// Funkcja ktora dodaje dowolna ilosc liczb
 void dodawanie(FILE * plik) {
 
-    float a;
-    float b;
+    unsigned int ile_liczb;
+    printf("\nIle liczb chcesz zsumowac: ");
+    scanf("%u", &ile_liczb);
 
-    printf("Podaj pierwsza liczbe: ");
-    scanf("%f", &a);
+    float suma = 0;
+    for(int i = 1; i <= ile_liczb; i++) {
+        float curr_number;
+        
+        printf("Podaj (%d) liczbe: ", i);
+        scanf("%f", &curr_number);
 
-    printf("Podaj druga liczbe: ");
-    scanf("%f", &b);
+        if(i == 1 && ile_liczb == 1) {
+            fprintf(plik, "%f", curr_number);
+        }
+        else if(i == 1) {
+            fprintf(plik, "SUMA %f i", curr_number);
+        }
+        else if(i == ile_liczb) {
+            fprintf(plik, " %f", curr_number);
+        }
+        else {
+            fprintf(plik, " %f i", curr_number);
+        }
 
-    float wynik = a + b;
-    printf("Suma: %f\n", wynik);
-    fprintf(plik, "Suma %f i %f wynosi: %f\n", a, b, wynik);
+        suma += curr_number;
+    }
+
+    printf("\nSUMA WYNOSI: %f\n", suma);
+    fprintf(plik, " WYNOSI: %f\n", suma);
 }
 
+// Funkcja ktora odejmuje dowolna ilosc liczb
 void odejmowanie(FILE * plik) {
 
-    float a;
-    float b;
+    unsigned int ile_liczb;
+    printf("\nIle liczb chcesz odjac: ");
+    scanf("%u", &ile_liczb);
 
-    printf("Podaj pierwsza liczbe: ");
-    scanf("%f", &a);
+    float roznica = 0;
+    for(int i = 1; i <= ile_liczb; i++) {
+        float current_number;
+        
+        printf("Podaj (%d) liczbe: ", i);
+        scanf("%f", &current_number);
 
-    printf("Podaj druga liczbe: ");
-    scanf("%f", &b);
+        if(i == 1 && ile_liczb == 1) {
+            fprintf(plik, "%f", current_number);
+        }
+        else if(i == 1) {
+            fprintf(plik, "ROZNICA %f i", current_number);
+        }
+        else if(i == ile_liczb) {
+            fprintf(plik, " %f", current_number);
+        }
+        else {
+            fprintf(plik, " %f i", current_number);
+        }
 
-    float wynik = a - b;
-    printf("Roznica: %f\n", wynik);
-    fprintf(plik, "Roznica %f i %f wynosi: %f\n", a, b, wynik);
+        roznica -= current_number;
+    }
+
+    printf("\nSUMA WYNOSI: %f\n", roznica);
+    fprintf(plik, " WYNOSI: %f\n", roznica);
 }
 
+
+// Funkcja ktora mnozy dowolna ilosc liczb
 void mnozenie(FILE * plik) {
 
-    float a;
-    float b;
+    unsigned int ile_liczb;
+    printf("\nIle liczb chcesz pomnozyc: ");
+    scanf("%u", &ile_liczb);
 
-    printf("Podaj pierwsza liczbe: ");
-    scanf("%f", &a);
+    float iloczyn = 1;
+    for(int i = 1; i <= ile_liczb; i++) {
+        float current_number;
+        
+        printf("Podaj (%d) liczbe: ", i);
+        scanf("%f", &current_number);
 
-    printf("Podaj druga liczbe: ");
-    scanf("%f", &b);
+        if(i == 1 && ile_liczb == 1) {
+            fprintf(plik, "%f", current_number);
+        }
+        else if(i == 1) {
+            fprintf(plik, "ILOCZYN %f i", current_number);
+        }
+        else if(i == ile_liczb) {
+            fprintf(plik, " %f", current_number);
+        }
+        else {
+            fprintf(plik, " %f i", current_number);
+        }
 
-    float wynik = a * b;
-    printf("Iloczyn: %f\n", wynik);
-    fprintf(plik, "Iloczyn %f i %f wynosi: %f\n", a, b, wynik);
+        iloczyn *= current_number;
+    }
+
+    printf("\nILOCZYN WYNOSI: %f\n", iloczyn);
+    fprintf(plik, " WYNOSI: %f\n", iloczyn);
 }
+
 
 void dzielenie(FILE * plik) {
 
@@ -70,19 +127,23 @@ void dzielenie(FILE * plik) {
     }
 }
 
+
+// Funkcja usuwajaca zawartosc pliku .txt
 void delete_file_contents(const char * calc_mem) {
     FILE * usun = fopen(calc_mem, "w");
+    printf("\nZawartosc pliku .txt zostala pomyslnie wyczyszczona.\n");
     fclose(usun);
 }
 
+// Funkcja prezentujaca jakie opcje mamy do wyboru
 void jaka_funkcja() {
-    printf("###Wybierz swoje dzialanie, wybierajac cyfre.###\n");
-    printf("1. Dodawanie.\n");
+    printf("\n###Wybierz swoje dzialanie, wybierajac cyfre.###\n");
+    printf("\n1. Dodawanie.\n");
     printf("2. Odejmowanie.\n");
     printf("3. Mnozenie.\n");
     printf("4. Dzielenie.\n");
     printf("9. Wyczyszczenie zawartosci pliku .txt\n");
-    printf("0. Wyjscie.");
+    printf("0. Wyjscie.\n");
 }
 
 
@@ -104,6 +165,7 @@ int main() {
     jaka_funkcja();
     printf("\nWybierz jedna z powyzszych opcji: ");
     scanf("%d", &wybor);
+
     switch(wybor) {
         case 1:
             dodawanie(save_to_file);
@@ -123,10 +185,10 @@ int main() {
             save_to_file = fopen(calc_mem, "a");
         break;
         case 0:
-            printf("Dziekuje za zkorzystanie z kalkulatora :3");
+            printf("\nDziekuje za zkorzystanie z kalkulatora :3");
             break;
         default:
-            printf("Taka opcja nie istnieje.");
+            printf("\nTaka opcja nie istnieje.");
             fprintf(save_to_file, "Uzytkownik wybral opcje ktora nie istnieje.\n");
     }
     } while(wybor != 0);
