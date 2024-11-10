@@ -1,12 +1,20 @@
 #include <stdio.h>
-#include <stdlib.h>
 
-// Funkcja ktora dodaje dowolna ilosc liczb
+void empty_stdin() {
+    int c = getchar();
+
+    while(c != '\n' && c != EOF)
+        c = getchar();
+    
+}
+
+
 void dodawanie(FILE * plik) {
 
     unsigned int ile_liczb;
     printf("\nIle liczb chcesz zsumowac: ");
     scanf("%u", &ile_liczb);
+    empty_stdin();
 
     float suma = 0;
     for(int i = 1; i <= ile_liczb; i++) {
@@ -14,6 +22,7 @@ void dodawanie(FILE * plik) {
         
         printf("Podaj (%d) liczbe: ", i);
         scanf("%f", &curr_number);
+        empty_stdin();
 
         if(i == 1 && ile_liczb == 1) {
             fprintf(plik, "%f", curr_number);
@@ -35,12 +44,13 @@ void dodawanie(FILE * plik) {
     fprintf(plik, " WYNOSI: %f\n", suma);
 }
 
-// Funkcja ktora odejmuje dowolna ilosc liczb
+
 void odejmowanie(FILE * plik) {
 
     unsigned int ile_liczb;
     printf("\nIle liczb chcesz odjac: ");
     scanf("%u", &ile_liczb);
+    empty_stdin();
 
     float roznica = 0;
     for(int i = 1; i <= ile_liczb; i++) {
@@ -48,6 +58,7 @@ void odejmowanie(FILE * plik) {
         
         printf("Podaj (%d) liczbe: ", i);
         scanf("%f", &current_number);
+        empty_stdin();
 
         if(i == 1 && ile_liczb == 1) {
             fprintf(plik, "%f", current_number);
@@ -70,12 +81,12 @@ void odejmowanie(FILE * plik) {
 }
 
 
-// Funkcja ktora mnozy dowolna ilosc liczb
 void mnozenie(FILE * plik) {
 
-    unsigned int ile_liczb;
+    const unsigned int ile_liczb;
     printf("\nIle liczb chcesz pomnozyc: ");
     scanf("%u", &ile_liczb);
+    empty_stdin();
 
     float iloczyn = 1;
     for(int i = 1; i <= ile_liczb; i++) {
@@ -83,6 +94,7 @@ void mnozenie(FILE * plik) {
         
         printf("Podaj (%d) liczbe: ", i);
         scanf("%f", &current_number);
+        empty_stdin();
 
         if(i == 1 && ile_liczb == 1) {
             fprintf(plik, "%f", current_number);
@@ -128,14 +140,13 @@ void dzielenie(FILE * plik) {
 }
 
 
-// Funkcja usuwajaca zawartosc pliku .txt
 void delete_file_contents(const char * calc_mem) {
     FILE * usun = fopen(calc_mem, "w");
     printf("\nZawartosc pliku .txt zostala pomyslnie wyczyszczona.\n");
     fclose(usun);
 }
 
-// Funkcja prezentujaca jakie opcje mamy do wyboru
+
 void jaka_funkcja() {
     printf("\n###Wybierz swoje dzialanie, wybierajac cyfre.###\n");
     printf("\n1. Dodawanie.\n");
@@ -162,36 +173,39 @@ int main() {
     int wybor;
 
     do {
-    jaka_funkcja();
-    printf("\nWybierz jedna z powyzszych opcji: ");
-    scanf("%d", &wybor);
+        
+        jaka_funkcja();
+        printf("\nWybierz jedna z powyzszych opcji: ");
+        scanf("%d", &wybor);
+        empty_stdin();
 
-    switch(wybor) {
-        case 1:
-            dodawanie(save_to_file);
-        break;
-        case 2:
-            odejmowanie(save_to_file);
-        break;
-        case 3:
-            mnozenie(save_to_file);
-        break;
-        case 4:
-            dzielenie(save_to_file);
-        break;
-        case 9:
-            fclose(save_to_file);
-            delete_file_contents(calc_mem);
-            save_to_file = fopen(calc_mem, "a");
-        break;
-        case 0:
-            printf("\nDziekuje za zkorzystanie z kalkulatora :3");
+        switch(wybor) {
+            case 1:
+                dodawanie(save_to_file);
             break;
-        default:
-            printf("\nTaka opcja nie istnieje.");
-            fprintf(save_to_file, "Uzytkownik wybral opcje ktora nie istnieje.\n");
+            case 2:
+                odejmowanie(save_to_file);
+            break;
+            case 3:
+                mnozenie(save_to_file);
+            break;
+            case 4:
+                dzielenie(save_to_file);
+            break;
+            case 9:
+                fclose(save_to_file);
+                delete_file_contents(calc_mem);
+                save_to_file = fopen(calc_mem, "a");
+            break;
+            case 0:
+                printf("\nDziekuje za zkorzystanie z kalkulatora :3");
+                break;
+            default:
+                printf("\nTaka opcja nie istnieje.");
+                fprintf(save_to_file, "Uzytkownik wybral opcje ktora nie istnieje.\n");
     }
     } while(wybor != 0);
+    
 
     fclose(save_to_file);
 
