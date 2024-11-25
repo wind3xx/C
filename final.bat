@@ -1,0 +1,1 @@
+gcc -o program primitive_calc.c MyMath.c
